@@ -12,9 +12,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run script
         env:
-          OCI_USER: ${{ secrets.OCI_USER_ID }}
-          OCI_TENANCY: ${{ secrets.OCI_TENANCY_ID }}
-          OCI_FINGERPRINT: ${{ secrets.OCI_KEY_FINGERPRINT }}
+          OCI_USER_ID: ${{ secrets.OCI_USER }}
+          OCI_TENANCY_ID: ${{ secrets.OCI_TENANCY }}
+          OCI_KEY_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
           OCI_REGION: ${{ secrets.OCI_REGION }}
           OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
           OCI_SSH_PUBLIC_KEY: ${{ secrets.OCI_SSH_PUBLIC_KEY }}
@@ -22,7 +22,16 @@ jobs:
           OCI_IMAGE_ID: ${{ secrets.OCI_IMAGE_ID }}
         run: |
           echo "$OCI_PRIVATE_KEY" > /tmp/private_key.pem
-          printf "OCI_USER_ID=%s\nOCI_TENANCY_ID=%s\nOCI_KEY_FINGERPRINT=%s\nOCI_REGION=%s\nOCI_PRIVATE_KEY_FILENAME=/tmp/private_key.pem\nOCI_SSH_PUBLIC_KEY=%s\nOCI_SUBNET_ID=%s\nOCI_IMAGE_ID=%s\nOCI_SHAPE=VM.Standard.A1.Flex\nOCI_OCPUS=4\nOCI_MEMORY_IN_GBS=24\n" "$OCI_USER_ID" "$OCI_TENANCY_ID" "$OCI_KEY_FINGERPRINT" "$OCI_REGION" "$OCI_SSH_PUBLIC_KEY" "$OCI_SUBNET_ID" "$OCI_IMAGE_ID" > .env
-          cat .env
+          printf 'OCI_USER_ID="%s"\n' "$OCI_USER_ID" > .env
+          printf 'OCI_TENANCY_ID="%s"\n' "$OCI_TENANCY_ID" >> .env
+          printf 'OCI_KEY_FINGERPRINT="%s"\n' "$OCI_KEY_FINGERPRINT" >> .env
+          printf 'OCI_REGION="%s"\n' "$OCI_REGION" >> .env
+          echo 'OCI_PRIVATE_KEY_FILENAME="/tmp/private_key.pem"' >> .env
+          printf 'OCI_SSH_PUBLIC_KEY="%s"\n' "$OCI_SSH_PUBLIC_KEY" >> .env
+          printf 'OCI_SUBNET_ID="%s"\n' "$OCI_SUBNET_ID" >> .env
+          printf 'OCI_IMAGE_ID="%s"\n' "$OCI_IMAGE_ID" >> .env
+          echo 'OCI_SHAPE="VM.Standard.A1.Flex"' >> .env
+          echo 'OCI_OCPUS=4' >> .env
+          echo 'OCI_MEMORY_IN_GBS=24' >> .env
           composer install
           php index.php
