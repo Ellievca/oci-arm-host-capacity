@@ -23,5 +23,6 @@ jobs:
         run: |
           echo "$OCI_PRIVATE_KEY" > /tmp/private_key.pem
           printf "OCI_USER_ID=%s\nOCI_TENANCY_ID=%s\nOCI_KEY_FINGERPRINT=%s\nOCI_REGION=%s\nOCI_PRIVATE_KEY_FILENAME=/tmp/private_key.pem\nOCI_SSH_PUBLIC_KEY=%s\nOCI_SUBNET_ID=%s\nOCI_IMAGE_ID=%s\nOCI_SHAPE=VM.Standard.A1.Flex\nOCI_OCPUS=4\nOCI_MEMORY_IN_GBS=24\n" "$OCI_USER_ID" "$OCI_TENANCY_ID" "$OCI_KEY_FINGERPRINT" "$OCI_REGION" "$OCI_SSH_PUBLIC_KEY" "$OCI_SUBNET_ID" "$OCI_IMAGE_ID" > .env
+          cat .env
           composer install
           php index.php
