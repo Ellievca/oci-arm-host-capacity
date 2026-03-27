@@ -12,14 +12,17 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run script
         env:
-          OCI_USER: ${{ secrets.OCI_USER }}
-          OCI_TENANCY: ${{ secrets.OCI_TENANCY }}
-          OCI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
+          OCI_USER_ID: ${{ secrets.OCI_USER }}
+          OCI_TENANCY_ID: ${{ secrets.OCI_TENANCY }}
+          OCI_KEY_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
           OCI_REGION: ${{ secrets.OCI_REGION }}
-          OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
+          OCI_PRIVATE_KEY_FILENAME: ${{ secrets.OCI_PRIVATE_KEY }}
           OCI_SSH_PUBLIC_KEY: ${{ secrets.OCI_SSH_PUBLIC_KEY }}
           OCI_SUBNET_ID: ${{ secrets.OCI_SUBNET_ID }}
           OCI_IMAGE_ID: ${{ secrets.OCI_IMAGE_ID }}
+          OCI_SHAPE: VM.Standard.A1.Flex
+          OCI_OCPUS: 4
+          OCI_MEMORY_IN_GBS: 24
         run: |
           composer install
           php index.php
